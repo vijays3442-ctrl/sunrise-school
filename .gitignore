@@ -1,30 +1,10 @@
-# Local configuration and secrets
-.env
-.env.*
-!.env.example
-*.key
-*.pem
+# Local connection details and downloaded archives
+/ftp.txt
+/*.zip
 
-# Logs, caches, and temporary files
-*.log
-*.tmp
-*.temp
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-
-# Dependency and generated local directories
-node_modules/
-vendor/
-.cache/
-
-# Archives are not part of the website source
-*.zip
-*.tar
-*.tar.gz
-*.tgz
-*.rar
-*.7z
+# Production settings and generated Laravel runtime files
+/sunrise-2/sunrise-2-app/.env.production.template
+/sunrise-2/sunrise-2-app/storage/framework/views/
+/sunrise-2/sunrise-2-app/storage/framework/sessions/
+/sunrise-2/sunrise-2-app/storage/logs/
+/sunrise-2/sunrise-2-app/bootstrap/cache/*.php

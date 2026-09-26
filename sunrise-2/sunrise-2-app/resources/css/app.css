@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .kider-card {
+        @apply transition-all duration-300 ease-in-out;
+    }
+    .kider-card:hover {
+        @apply bg-[#FE5D37] text-white shadow-xl -translate-y-2;
+    }
+    .kider-card:hover h1, 
+    .kider-card:hover h2, 
+    .kider-card:hover h3, 
+    .kider-card:hover h4, 
+    .kider-card:hover p, 
+    .kider-card:hover span,
+    .kider-card:hover i {
+        @apply text-white;
+    }
+    .kider-icon-container {
+        @apply transition-all duration-300 ease-in-out;
+    }
+    .kider-card:hover .kider-icon-container {
+        @apply bg-[#103741] text-white border-transparent;
+    }
+    .kider-card-alt:hover {
+        @apply bg-[#103741] text-white shadow-xl -translate-y-2;
+    }
+}
