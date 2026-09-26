@@ -1,0 +1,30 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# Logs, caches, and temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Dependency and generated local directories
+node_modules/
+vendor/
+.cache/
+
+# Archives are not part of the website source
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
