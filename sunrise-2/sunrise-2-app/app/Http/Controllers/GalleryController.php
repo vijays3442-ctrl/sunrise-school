@@ -10,6 +10,12 @@ class GalleryController extends Controller
     public function index()
     {
         $galleries = Gallery::latest()->get();
-        return view('gallery', compact('galleries'));
+        $categories = Gallery::whereNotNull('category')
+            ->where('category', '!=', '')
+            ->pluck('category')
+            ->unique()
+            ->values();
+
+        return view('gallery', compact('galleries', 'categories'));
     }
 }

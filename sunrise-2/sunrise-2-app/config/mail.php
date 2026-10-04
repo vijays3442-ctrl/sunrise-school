@@ -111,8 +111,10 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
+        'address' => env('MAIL_FROM_ADDRESS', 'noreply@sunriseschool.com'),
+        'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Sunrise English Medium School')),
     ],
+
+    'school_recipient' => env('SCHOOL_NOTIFICATION_EMAIL', 'Hmsunrisegurukul@gmail.com'),
 
 ];

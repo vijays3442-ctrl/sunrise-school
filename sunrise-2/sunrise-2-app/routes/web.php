@@ -6,9 +6,15 @@ use Illuminate\Support\Facades\Route;
 use App\Models\HeroSlider;
 use App\Models\Achievement;
 use App\Models\Notice;
+use App\Models\LeadershipMessage;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\Admin\PageImageController;
+use App\Http\Controllers\Admin\LeadershipMessageController;
 use App\Http\Controllers\SiteContentController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
+use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 
 Route::get('/', function () {
     $sliders = HeroSlider::where('is_active', true)->orderBy('sort_order', 'asc')->get();
@@ -22,7 +28,8 @@ Route::get('/disclosure', function () {
 })->name('disclosure');
 
 Route::get('/about', function () {
-    return view('about');
+    $leaders = LeadershipMessage::where('is_active', true)->orderBy('sort_order', 'asc')->get();
+    return view('about', compact('leaders'));
 })->name('about');
 
 Route::get('/academics', function () {
@@ -36,6 +43,10 @@ Route::get('/admissions', function () {
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+// Public Form Submissions
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/educators', function () {
     return view('educators');
@@ -92,6 +103,26 @@ Route::middleware('auth')->group(function () {
         'update' => 'admin.notices.update',
         'destroy' => 'admin.notices.destroy',
     ]);
+
+    // Leadership Messages Admin Routes
+    Route::resource('/dashboard/leadership', LeadershipMessageController::class)->names([
+        'index' => 'admin.leadership.index',
+        'create' => 'admin.leadership.create',
+        'store' => 'admin.leadership.store',
+        'edit' => 'admin.leadership.edit',
+        'update' => 'admin.leadership.update',
+        'destroy' => 'admin.leadership.destroy',
+    ]);
+
+    // Appointments Admin Routes
+    Route::get('/dashboard/appointments', [AdminAppointmentController::class, 'index'])->name('admin.appointments.index');
+    Route::patch('/dashboard/appointments/{appointment}/status', [AdminAppointmentController::class, 'updateStatus'])->name('admin.appointments.status');
+    Route::delete('/dashboard/appointments/{appointment}', [AdminAppointmentController::class, 'destroy'])->name('admin.appointments.destroy');
+
+    // Contact Messages Admin Routes
+    Route::get('/dashboard/contact-messages', [AdminContactMessageController::class, 'index'])->name('admin.contact.index');
+    Route::patch('/dashboard/contact-messages/{message}/status', [AdminContactMessageController::class, 'updateStatus'])->name('admin.contact.status');
+    Route::delete('/dashboard/contact-messages/{message}', [AdminContactMessageController::class, 'destroy'])->name('admin.contact.destroy');
 });
 
 require __DIR__.'/auth.php';

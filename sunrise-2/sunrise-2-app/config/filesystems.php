@@ -40,10 +40,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            // The app and web root are siblings on shared hosting. Using a
-            // base-relative path remains correct even while Artisan rebuilds
-            // config caches before the HTTP front controller is involved.
-            'root' => base_path('../public_html/sunrise-2/storage'),
+            // Points to the public storage directory served directly by Apache
+            'root' => base_path('../storage'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,

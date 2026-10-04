@@ -56,22 +56,71 @@
             </div>
 
             <!-- Contact Form -->
-            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                <h3 class="text-2xl font-bold text-[#103741] mb-6">Send a Message</h3>
-                <form>
+            <div id="contact-form" class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <h3 class="text-2xl font-bold text-[#103741] mb-2 font-lobster">Send a Message</h3>
+                <p class="text-gray-500 text-xs mb-6">Have questions or feedback? Fill in the details below and we will get back to you.</p>
+
+                @if (session('contact_success'))
+                    <div class="bg-green-50 border-l-4 border-green-500 text-green-800 p-4 rounded-2xl shadow-sm mb-6 flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-green-500 text-xl mt-0.5 shrink-0"></i>
+                        <div>
+                            <p class="font-bold text-sm">Message Sent Successfully!</p>
+                            <p class="text-xs mt-0.5 text-green-700">{{ session('contact_success') }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="bg-red-50 border-l-4 border-red-500 text-red-800 p-4 rounded-2xl shadow-sm mb-6 text-xs">
+                        <p class="font-bold mb-1">Please correct the following errors:</p>
+                        <ul class="list-disc pl-4 space-y-0.5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('contact.store') }}" method="POST">
+                    @csrf
                     <div class="mb-4">
-                        <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37]">
+                        <input type="text" name="name" value="{{ old('name') }}" placeholder="Your Name *" required
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37] text-sm @error('name') border-red-400 @enderror">
+                        @error('name')
+                            <p class="text-[11px] text-red-500 mt-1 pl-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="Your Email *" required
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37] text-sm @error('email') border-red-400 @enderror">
+                            @error('email')
+                                <p class="text-[11px] text-red-500 mt-1 pl-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="Your Phone (Optional)"
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37] text-sm">
+                        </div>
                     </div>
                     <div class="mb-4">
-                        <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37]">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" placeholder="Subject" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37]">
+                        <input type="text" name="subject" value="{{ old('subject') }}" placeholder="Subject *" required
+                               class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37] text-sm @error('subject') border-red-400 @enderror">
+                        @error('subject')
+                            <p class="text-[11px] text-red-500 mt-1 pl-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-6">
-                        <textarea rows="4" placeholder="Message" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37]"></textarea>
+                        <textarea name="message" rows="4" placeholder="Your Message *" required
+                                  class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#FE5D37] text-sm @error('message') border-red-400 @enderror">{{ old('message') }}</textarea>
+                        @error('message')
+                            <p class="text-[11px] text-red-500 mt-1 pl-1">{{ $message }}</p>
+                        @enderror
                     </div>
-                    <button type="button" class="btn-kider w-full text-center">Send Message</button>
+                    <button type="submit" class="btn-kider w-full py-4 text-base font-bold shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Send Message</span>
+                    </button>
                 </form>
             </div>
         </div>

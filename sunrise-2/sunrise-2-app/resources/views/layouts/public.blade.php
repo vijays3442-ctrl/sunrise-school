@@ -15,8 +15,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <!-- Swiper CSS (Local first, CDN fallback) -->
+    <link rel="stylesheet" href="{{ asset('lib/swiper/swiper-bundle.min.css') }}" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css';" />
 
     <!-- Scripts and Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -263,8 +263,13 @@
         </div>
     </footer>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- Swiper JS (Local first, CDN fallback) -->
+    <script src="{{ asset('lib/swiper/swiper-bundle.min.js') }}"></script>
+    <script>
+        if (typeof Swiper === 'undefined') {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"><\/script>');
+        }
+    </script>
     
     @stack('scripts')
 </body>

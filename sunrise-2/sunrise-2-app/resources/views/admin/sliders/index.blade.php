@@ -17,6 +17,22 @@
         </div>
     @endif
 
+    <!-- Upload Dimensions Notice Banner -->
+    <div class="bg-gradient-to-r from-orange-50 to-white border border-orange-200 rounded-2xl p-4 mb-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-sm">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-[#FE5D37] text-white flex items-center justify-center shrink-0 shadow-sm">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div>
+                <span class="font-bold text-[#103741]">Perfect Slider Image Dimensions:</span>
+                <span class="text-gray-600"> <strong>1920 × 800 px</strong> or <strong>1920 × 1080 px</strong> (16:9 Landscape ratio, WebP/JPG/PNG up to 5MB). Keep subject centered or on the right.</span>
+            </div>
+        </div>
+        <a href="{{ route('admin.sliders.create') }}" class="text-[#FE5D37] hover:text-orange-600 font-semibold whitespace-nowrap text-xs flex items-center">
+            Upload Image <i class="fa-solid fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+
     <div class="bg-white overflow-hidden shadow-sm border border-gray-100 sm:rounded-3xl">
         <div class="p-6 text-gray-900 overflow-x-auto">
             <table class="w-full text-left border-collapse">

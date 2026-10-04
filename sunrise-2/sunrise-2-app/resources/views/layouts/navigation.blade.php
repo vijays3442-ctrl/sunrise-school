@@ -43,6 +43,34 @@
             {{ __('News & Notices') }}
         </a>
 
+        <a href="{{ route('admin.leadership.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 {{ request()->routeIs('admin.leadership.*') ? 'bg-[#FE5D37] text-white shadow-lg shadow-[#FE5D37]/30' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <i class="fa-solid fa-users-gear w-6 text-center mr-2 {{ request()->routeIs('admin.leadership.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}"></i>
+            {{ __('Leadership Messages') }}
+        </a>
+
+        <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-8">Inquiries & Leads</p>
+
+        @php
+            $pendingAppts = \App\Models\Appointment::where('status', 'pending')->count();
+            $unreadMessages = \App\Models\ContactMessage::where('status', 'unread')->count();
+        @endphp
+
+        <a href="{{ route('admin.appointments.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 {{ request()->routeIs('admin.appointments.*') ? 'bg-[#FE5D37] text-white shadow-lg shadow-[#FE5D37]/30' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <i class="fa-solid fa-calendar-check w-6 text-center mr-2 {{ request()->routeIs('admin.appointments.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}"></i>
+            <span>{{ __('Appointments') }}</span>
+            @if($pendingAppts > 0)
+                <span class="ml-auto px-2 py-0.5 text-[11px] font-bold rounded-full bg-amber-400 text-slate-900">{{ $pendingAppts }}</span>
+            @endif
+        </a>
+
+        <a href="{{ route('admin.contact.index') }}" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 {{ request()->routeIs('admin.contact.*') ? 'bg-[#FE5D37] text-white shadow-lg shadow-[#FE5D37]/30' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <i class="fa-solid fa-envelope-open-text w-6 text-center mr-2 {{ request()->routeIs('admin.contact.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}"></i>
+            <span>{{ __('Messages') }}</span>
+            @if($unreadMessages > 0)
+                <span class="ml-auto px-2 py-0.5 text-[11px] font-bold rounded-full bg-orange-500 text-white">{{ $unreadMessages }}</span>
+            @endif
+        </a>
+
         <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-8">Quick Links</p>
         
         <a href="/" target="_blank" class="flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-200">

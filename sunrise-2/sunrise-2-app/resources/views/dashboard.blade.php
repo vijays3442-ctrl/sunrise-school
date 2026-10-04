@@ -26,42 +26,65 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         
-        <!-- Stat Card 1 -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
+        <!-- Stat Card 1: Appointments -->
+        <a href="{{ route('admin.appointments.index') }}" class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
+            <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <div class="ml-5">
+                <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">Appointments</p>
+                <h3 class="text-3xl font-bold text-[#103741]">{{ \App\Models\Appointment::count() }}</h3>
+                @php $pendingCount = \App\Models\Appointment::where('status', 'pending')->count(); @endphp
+                @if($pendingCount > 0)
+                    <span class="text-[11px] text-amber-600 font-semibold">{{ $pendingCount }} pending</span>
+                @else
+                    <span class="text-[11px] text-gray-400">All updated</span>
+                @endif
+            </div>
+        </a>
+
+        <!-- Stat Card 2: Contact Messages -->
+        <a href="{{ route('admin.contact.index') }}" class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
             <div class="w-16 h-16 rounded-2xl bg-[#FFF5F3] text-[#FE5D37] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div class="ml-5">
+                <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">Messages</p>
+                <h3 class="text-3xl font-bold text-[#103741]">{{ \App\Models\ContactMessage::count() }}</h3>
+                @php $unreadCount = \App\Models\ContactMessage::where('status', 'unread')->count(); @endphp
+                @if($unreadCount > 0)
+                    <span class="text-[11px] text-[#FE5D37] font-semibold">{{ $unreadCount }} unread</span>
+                @else
+                    <span class="text-[11px] text-gray-400">No unread</span>
+                @endif
+            </div>
+        </a>
+
+        <!-- Stat Card 3: Active Sliders -->
+        <a href="{{ route('admin.sliders.index') }}" class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
+            <div class="w-16 h-16 rounded-2xl bg-[#F0F8FF] text-[#103741] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-images"></i>
             </div>
             <div class="ml-5">
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Active Sliders</p>
+                <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">Sliders</p>
                 <h3 class="text-3xl font-bold text-[#103741]">{{ \App\Models\HeroSlider::count() }}</h3>
+                <span class="text-[11px] text-gray-400">Hero banners</span>
             </div>
-        </div>
+        </a>
 
-        <!-- Stat Card 2 -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
-            <div class="w-16 h-16 rounded-2xl bg-[#F0F8FF] text-[#103741] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+        <!-- Stat Card 4: Gallery Photos -->
+        <a href="{{ route('admin.gallery.index') }}" class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
+            <div class="w-16 h-16 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-camera-retro"></i>
             </div>
             <div class="ml-5">
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Gallery Photos</p>
+                <p class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">Gallery</p>
                 <h3 class="text-3xl font-bold text-[#103741]">{{ \App\Models\Gallery::count() ?? 0 }}</h3>
+                <span class="text-[11px] text-gray-400">Photos & Videos</span>
             </div>
-        </div>
-        
-        <!-- Stat Card 3 -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex items-center group hover:shadow-md transition-shadow">
-            <div class="w-16 h-16 rounded-2xl bg-green-50 text-green-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-globe"></i>
-            </div>
-            <div class="ml-5">
-                <p class="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Website Status</p>
-                <h3 class="text-xl font-bold text-[#103741] flex items-center">
-                    <span class="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span> Online
-                </h3>
-            </div>
-        </div>
+        </a>
 
     </div>
 
