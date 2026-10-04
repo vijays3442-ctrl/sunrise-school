@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (request()->server('HTTP_X_FORWARDED_PROTO') === 'https' || str_contains(request()->server('HTTP_HOST', ''), 'trycloudflare.com')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
     }
 }
