@@ -5,8 +5,11 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)](https://mariadb.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Online-success?style=for-the-badge&logo=cloudflare)](https://inquiry-interval-pichunter-neutral.trycloudflare.com)
 
 A modern, responsive, and enterprise-grade school web portal & management system designed for **Sunrise English Medium School & Junior College (Sunrise Gurukul)**. Built with Laravel 11, Tailwind CSS, and MariaDB.
+
+🔗 **Live Website URL:** [https://inquiry-interval-pichunter-neutral.trycloudflare.com](https://inquiry-interval-pichunter-neutral.trycloudflare.com)
 
 ---
 
