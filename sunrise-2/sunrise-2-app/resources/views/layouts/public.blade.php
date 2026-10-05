@@ -110,6 +110,164 @@
                 display: inline-flex !important;
             }
         }
+
+        /* Dropdown Mega Menu & Card Styling */
+        .nav-dropdown-wrapper {
+            position: absolute;
+            top: 100%;
+            z-index: 60;
+            padding-top: 10px;
+        }
+        .nav-dropdown-wrapper.align-left {
+            left: 0;
+            right: auto;
+        }
+        .nav-dropdown-wrapper.align-center {
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+        }
+        .nav-dropdown-wrapper.align-right {
+            right: 0;
+            left: auto;
+        }
+
+        .nav-dropdown-panel-1col {
+            width: 290px;
+            max-width: calc(100vw - 32px);
+        }
+        .nav-dropdown-panel-2col {
+            width: 520px;
+            max-width: calc(100vw - 32px);
+        }
+        .nav-dropdown-panel-3col {
+            width: 760px;
+            max-width: calc(100vw - 32px);
+        }
+
+        .nav-dropdown-card {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            border: 1px solid #ECEFF2;
+            box-shadow: 0 20px 40px -10px rgba(16, 55, 65, 0.18), 0 0 0 1px rgba(16, 55, 65, 0.05);
+            padding: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Accent top gradient stripe */
+        .nav-dropdown-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5px;
+            background: linear-gradient(90deg, #FE5D37 0%, #FFA07A 50%, #103741 100%);
+        }
+
+        .nav-dropdown-grid-1 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.35rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .nav-dropdown-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.6rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .nav-dropdown-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .nav-dropdown-group-box {
+            background: #F8FAFC;
+            border: 1px solid #EDF2F7;
+            border-radius: 0.875rem;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+
+        .nav-dropdown-group-title {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #FE5D37;
+            padding: 0.2rem 0.4rem 0.45rem 0.4rem;
+            margin-bottom: 0.25rem;
+            border-bottom: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-dropdown-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 0.65rem 0.85rem;
+            font-size: 13px;
+            font-weight: 600;
+            color: #103741;
+            border-radius: 0.625rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            line-height: 1.35;
+            background: transparent;
+            box-sizing: border-box;
+            width: 100%;
+            min-width: 0;
+        }
+        .nav-dropdown-link span {
+            white-space: normal;
+            word-break: break-word;
+        }
+        .nav-dropdown-link:hover {
+            background: #FFF5F2;
+            color: #FE5D37;
+            padding-left: 1rem;
+        }
+        .nav-dropdown-link i.arrow-icon {
+            font-size: 9px;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .nav-dropdown-link:hover i.arrow-icon {
+            opacity: 1;
+            transform: translateX(0);
+            color: #FE5D37;
+        }
+
+        /* In grouped box */
+        .nav-dropdown-group-box .nav-dropdown-link {
+            font-size: 12.5px;
+            padding: 0.45rem 0.65rem;
+        }
+        .nav-dropdown-group-box .nav-dropdown-link:hover {
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(16, 55, 65, 0.06);
+            color: #FE5D37;
+        }
     </style>
 </head>
 <body class="font-sans antialiased bg-[#FFF5F3] text-gray-800">
@@ -164,30 +322,49 @@
 
                             @if($children)
                                 @php
-                                    $panelClass = match($columns) { 3 => 'w-[760px] max-w-[92vw]', 2 => 'w-[520px] max-w-[92vw]', default => 'w-72' };
-                                    $gridClass = match($columns) { 3 => 'grid-cols-3', 2 => 'grid-cols-2', default => 'grid-cols-1' };
                                     $alignClass = match(true) {
-                                        $index >= 6 => 'right-0',
-                                        $index <= 1 => 'left-0',
-                                        default => 'left-1/2 -translate-x-1/2',
+                                        $index >= 6 => 'align-right',
+                                        $index <= 2 => 'align-left',
+                                        default => 'align-center',
+                                    };
+                                    $panelClass = match($columns) {
+                                        3 => 'nav-dropdown-panel-3col',
+                                        2 => 'nav-dropdown-panel-2col',
+                                        default => 'nav-dropdown-panel-1col',
+                                    };
+                                    $gridClass = match($columns) {
+                                        3 => 'nav-dropdown-grid-3',
+                                        2 => 'nav-dropdown-grid-2',
+                                        default => 'nav-dropdown-grid-1',
                                     };
                                 @endphp
-                                <div x-cloak x-show="desktopOpen === {{ $index }}" x-transition.opacity.duration.150ms class="absolute {{ $alignClass }} top-full z-[60] {{ $panelClass }} pt-3">
-                                    <div class="grid {{ $gridClass }} gap-3 rounded-3xl border border-gray-100 bg-white p-4 shadow-2xl">
-                                        @if($hasGroups)
-                                            @foreach(collect($children)->groupBy(fn ($child) => $child['group'] ?? 'Explore') as $group => $groupChildren)
-                                                <div class="rounded-2xl bg-gray-50 p-3">
-                                                    <p class="mb-2 px-2 text-xs font-bold uppercase tracking-wider text-[#FE5D37]">{{ $group }}</p>
-                                                    @foreach($groupChildren as $child)
-                                                        <a href="{{ route($child['route'], $child['parameters'] ?? []) }}" class="block rounded-xl px-3 py-2.5 text-sm font-semibold text-[#103741] transition hover:bg-white hover:text-[#FE5D37] hover:shadow-sm">{{ $child['label'] }}</a>
-                                                    @endforeach
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            @foreach($children as $child)
-                                                <a href="{{ route($child['route'], $child['parameters'] ?? []) }}" class="rounded-xl px-4 py-3 text-sm font-semibold text-[#103741] transition hover:bg-orange-50 hover:text-[#FE5D37]">{{ $child['label'] }}</a>
-                                            @endforeach
-                                        @endif
+                                <div x-cloak x-show="desktopOpen === {{ $index }}" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-1" class="nav-dropdown-wrapper {{ $alignClass }} {{ $panelClass }}">
+                                    <div class="nav-dropdown-card">
+                                        <div class="{{ $gridClass }}">
+                                            @if($hasGroups)
+                                                @foreach(collect($children)->groupBy(fn ($child) => $child['group'] ?? 'Explore') as $group => $groupChildren)
+                                                    <div class="nav-dropdown-group-box">
+                                                        <div class="nav-dropdown-group-title">
+                                                            <i class="fa-solid fa-layer-group text-[9px]"></i>
+                                                            <span>{{ $group }}</span>
+                                                        </div>
+                                                        @foreach($groupChildren as $child)
+                                                            <a href="{{ route($child['route'], $child['parameters'] ?? []) }}" class="nav-dropdown-link">
+                                                                <span>{{ $child['label'] }}</span>
+                                                                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                @foreach($children as $child)
+                                                    <a href="{{ route($child['route'], $child['parameters'] ?? []) }}" class="nav-dropdown-link">
+                                                        <span>{{ $child['label'] }}</span>
+                                                        <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                                                    </a>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             @endif
