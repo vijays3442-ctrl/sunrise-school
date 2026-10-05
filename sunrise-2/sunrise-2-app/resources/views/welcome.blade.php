@@ -500,6 +500,7 @@
                             <div class="w-48 h-48 sm:w-52 sm:h-52 rounded-full overflow-hidden bg-gray-100">
                                 <img src="{{ page_image('home.founder') }}" 
                                      alt="{{ page_image_alt('home.founder') }}" 
+                                     onerror="this.onerror=null;this.src='{{ asset('images/leadership/founder.png') }}';"
                                      class="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-700 ease-out"
                                      style="object-position: center 10%; image-rendering: -webkit-optimize-contrast;">
                             </div>

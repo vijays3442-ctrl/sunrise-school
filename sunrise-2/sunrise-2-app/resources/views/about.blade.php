@@ -66,6 +66,7 @@
                                         @if($photoSrc)
                                             <img src="{{ $photoSrc }}" 
                                                  alt="{{ $photoAlt }}" 
+                                                 onerror="this.onerror=null;this.src='{{ asset('images/leadership/founder.png') }}';"
                                                  style="width: 160px; height: 160px; object-fit: cover; object-position: center 10%; display: block;"
                                                  class="w-full h-full object-cover object-top transition duration-300 group-hover:scale-105">
                                         @else

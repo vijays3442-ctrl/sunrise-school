@@ -42,7 +42,7 @@ return [
             'driver' => 'local',
             // Points to the public storage directory served directly by Apache
             'root' => base_path('../storage'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'url' => env('ASSET_URL') ?: '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

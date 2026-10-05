@@ -52,6 +52,64 @@
             transform: translateY(-2px);
         }
         [x-cloak] { display: none !important; }
+
+        /* Responsive Desktop vs Mobile Navigation */
+        @media (min-width: 1024px) {
+            .navbar-desktop {
+                display: flex !important;
+            }
+            .navbar-mobile-toggle,
+            .navbar-mobile-drawer {
+                display: none !important;
+            }
+            .top-bar-desktop {
+                display: block !important;
+            }
+        }
+        @media (max-width: 1023.98px) {
+            .navbar-desktop {
+                display: none !important;
+            }
+            .navbar-mobile-toggle {
+                display: inline-flex !important;
+            }
+            .top-bar-desktop {
+                display: none !important;
+            }
+        }
+        .nav-desktop-item {
+            font-size: 12.5px;
+            font-weight: 700;
+            padding-left: 7px;
+            padding-right: 7px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s ease;
+        }
+        @media (min-width: 1280px) {
+            .nav-desktop-item {
+                font-size: 13.5px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+        @media (min-width: 1536px) {
+            .nav-desktop-item {
+                font-size: 14px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+        }
+        .navbar-cta-btn {
+            display: none;
+        }
+        @media (min-width: 1280px) {
+            .navbar-cta-btn {
+                display: inline-flex !important;
+            }
+        }
     </style>
 </head>
 <body class="font-sans antialiased bg-[#FFF5F3] text-gray-800">
@@ -61,7 +119,7 @@
     @endphp
 
     <!-- Top Bar -->
-    <div class="hidden bg-[#103741] py-2 text-white xl:block">
+    <div class="hidden bg-[#103741] py-2 text-white lg:block">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between text-xs font-semibold 2xl:text-sm">
                 <div class="flex items-center gap-5">
@@ -82,13 +140,13 @@
     <!-- Navbar -->
     <nav x-data="{ mobileOpen: false, desktopOpen: null, mobileSection: null }" @keydown.escape.window="desktopOpen = null; mobileOpen = false" class="sticky top-0 z-50 bg-white shadow-sm">
         <div class="container mx-auto px-4 lg:px-6">
-            <div class="flex h-20 items-center justify-between gap-4">
-                <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2.5">
-                    <img src="{{ page_image('site.logo') }}" alt="{{ page_image_alt('site.logo') }}" class="h-14 w-auto 2xl:h-16">
-                    <span class="font-lobster text-2xl text-[#FE5D37] 2xl:text-3xl">Sunrise.</span>
+            <div class="flex h-20 items-center justify-between gap-2 xl:gap-4">
+                <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2">
+                    <img src="{{ page_image('site.logo') }}" alt="{{ page_image_alt('site.logo') }}" class="h-12 w-auto 2xl:h-16">
+                    <span class="font-lobster text-xl lg:text-2xl text-[#FE5D37] 2xl:text-3xl">Sunrise.</span>
                 </a>
 
-                <div class="hidden min-w-0 flex-1 items-stretch justify-center xl:flex" @mouseleave="desktopOpen = null">
+                <div class="navbar-desktop min-w-0 flex-1 items-stretch justify-center" @mouseleave="desktopOpen = null">
                     @foreach($navigation['primary'] as $index => $item)
                         @php
                             $itemUrl = route($item['route'], $item['parameters'] ?? []);
@@ -99,17 +157,22 @@
                         @endphp
 
                         <div class="relative flex items-stretch" @mouseenter="desktopOpen = {{ $index }}" @focusin="desktopOpen = {{ $index }}">
-                            <a href="{{ $itemUrl }}" class="flex items-center gap-1 whitespace-nowrap px-2.5 text-[13px] font-bold transition 2xl:px-3 2xl:text-sm {{ $isActive ? 'text-[#FE5D37]' : 'text-[#103741] hover:text-[#FE5D37]' }}" @if($isActive) aria-current="page" @endif>
+                            <a href="{{ $itemUrl }}" class="nav-desktop-item {{ $isActive ? 'text-[#FE5D37]' : 'text-[#103741] hover:text-[#FE5D37]' }}" @if($isActive) aria-current="page" @endif>
                                 {{ $item['label'] }}
-                                @if($children)<i class="fa-solid fa-chevron-down text-[9px]"></i>@endif
+                                @if($children)<i class="fa-solid fa-chevron-down text-[9px] opacity-75"></i>@endif
                             </a>
 
                             @if($children)
                                 @php
-                                    $panelClass = match($columns) { 3 => 'w-[820px]', 2 => 'w-[580px]', default => 'w-80' };
+                                    $panelClass = match($columns) { 3 => 'w-[760px] max-w-[92vw]', 2 => 'w-[520px] max-w-[92vw]', default => 'w-72' };
                                     $gridClass = match($columns) { 3 => 'grid-cols-3', 2 => 'grid-cols-2', default => 'grid-cols-1' };
+                                    $alignClass = match(true) {
+                                        $index >= 6 => 'right-0',
+                                        $index <= 1 => 'left-0',
+                                        default => 'left-1/2 -translate-x-1/2',
+                                    };
                                 @endphp
-                                <div x-cloak x-show="desktopOpen === {{ $index }}" x-transition.opacity.duration.150ms class="absolute left-1/2 top-full z-[60] {{ $panelClass }} -translate-x-1/2 pt-3">
+                                <div x-cloak x-show="desktopOpen === {{ $index }}" x-transition.opacity.duration.150ms class="absolute {{ $alignClass }} top-full z-[60] {{ $panelClass }} pt-3">
                                     <div class="grid {{ $gridClass }} gap-3 rounded-3xl border border-gray-100 bg-white p-4 shadow-2xl">
                                         @if($hasGroups)
                                             @foreach(collect($children)->groupBy(fn ($child) => $child['group'] ?? 'Explore') as $group => $groupChildren)
@@ -133,10 +196,10 @@
                 </div>
 
                 <div class="flex shrink-0 items-center gap-3">
-                    <a href="{{ route($navigation['cta']['route'], $navigation['cta']['parameters']) }}" class="hidden items-center gap-2 rounded-full bg-[#FE5D37] px-5 py-3 text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#103741] 2xl:inline-flex">
+                    <a href="{{ route($navigation['cta']['route'], $navigation['cta']['parameters']) }}" class="navbar-cta-btn items-center gap-2 rounded-full bg-[#FE5D37] px-4 py-2 text-xs font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#103741] 2xl:px-5 2xl:py-3 2xl:text-sm">
                         Admission Enquiry <i class="fa-solid fa-arrow-right"></i>
                     </a>
-                    <button type="button" @click="mobileOpen = !mobileOpen" class="inline-flex h-11 w-11 items-center justify-center rounded-xl text-[#103741] transition hover:bg-orange-50 hover:text-[#FE5D37] xl:hidden" :aria-expanded="mobileOpen.toString()" aria-controls="mobile-navigation">
+                    <button type="button" @click="mobileOpen = !mobileOpen" class="navbar-mobile-toggle h-11 w-11 items-center justify-center rounded-xl text-[#103741] transition hover:bg-orange-50 hover:text-[#FE5D37]" :aria-expanded="mobileOpen.toString()" aria-controls="mobile-navigation">
                         <span class="sr-only">Toggle main menu</span>
                         <i class="fa-solid" :class="mobileOpen ? 'fa-xmark' : 'fa-bars'"></i>
                     </button>
@@ -144,7 +207,7 @@
             </div>
         </div>
 
-        <div id="mobile-navigation" x-cloak x-show="mobileOpen" x-transition class="max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-gray-100 bg-white xl:hidden">
+        <div id="mobile-navigation" x-cloak x-show="mobileOpen" x-transition class="navbar-mobile-drawer max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-gray-100 bg-white">
             <div class="container mx-auto space-y-1 px-4 py-4">
                 @foreach($navigation['primary'] as $index => $item)
                     @php

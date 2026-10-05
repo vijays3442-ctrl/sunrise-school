@@ -55,7 +55,11 @@ class PageImageRegistry
         $imagePath = $this->record($key)?->image_path;
 
         if ($imagePath) {
-            return Storage::disk('public')->url($imagePath);
+            $normalizedPath = Str::startsWith($imagePath, ['storage/', '/storage/'])
+                ? ltrim($imagePath, '/')
+                : 'storage/' . ltrim($imagePath, '/');
+
+            return $this->toUrl($normalizedPath);
         }
 
         return $this->toUrl($definition['fallback']);
